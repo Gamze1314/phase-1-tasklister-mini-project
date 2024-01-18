@@ -1,31 +1,41 @@
-document.addEventListener("DOMContentLoaded", () => {
-  console.log(document.querySelector('#create-task-form'))
-  // your code here
-// we will add x button to remove
-  // add text and submit ( submit event)
-  document.querySelector('#create-task-form').addEventListener('submit' ,(e) => { console.log('task')
-    e.preventDefault() // prevents default action
-    console.log(e.target["new-task-description"].value)
-    handleTaskLister(e.target["new-task-description"].value) //the value you type in will be handled by handleTaskLister function
-    
-  })
+const form = document.querySelector('#create-task-form');
+const taskContainer = document.getElementById('tasks');
+const colors = ["red", "yellow", "green"];
 
-});
+form.addEventListener('submit' ,(e) => { 
+    e.preventDefault();
+    const inputValue = document.querySelector('#new-task-description').value
+    console.log(inputValue)
 
-function handleTaskLister (task) {
-  let p = document.createElement('li')
-  let btn = document.createElement('button') 
-  btn.addEventListener('click' , deleter) // should I add eventlistener in tihs scope ? 
+    const li = document.createElement('li');
+    li.innerHTML = inputValue
 
-  btn.textContent = ' x'
-  p.textContent = task
-  p.appendChild(btn)
-  document.querySelector('#tasks').appendChild(p)
-}
+    const btn = document.createElement('button');
+    btn.innerHTML = "X";
+   
+    const btn2 = document.createElement('button');
+    btn2.innerHTML = "Choose priority";
+
+    btn2.addEventListener('mouseover', () => {
+    btn2.style.background = colors[0];
+    btn2.innerHTML = "High"
+   });
+
+   btn2.addEventListener('click', () => { 
+    btn2.style.background = colors[1]
+    btn2.innerHTML = "Medium"
+   })
+
+    btn.addEventListener('click', () => {
+      li.remove();
+    })
+
+    taskContainer.appendChild(li);
+    li.append(btn,btn2);
+
+  });
 
 
-function deleter (e) { 
-  e.target.parentNode.remove() // we grabbed the target of event = button , why we grab the parent node ?
 
-}
+
 
